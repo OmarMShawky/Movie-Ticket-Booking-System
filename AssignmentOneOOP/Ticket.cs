@@ -6,10 +6,10 @@ namespace AssignmentOneOOP;
 
 internal class Ticket
 {
-    public string MovieName { get; set; }     
-    public TicketType TicketType { get; set; }
-    public Seat Seat { get; set; }
-    private double _price { get; set; }
+    public string MovieName;
+    public TicketType TicketType;
+    public Seat Seat;
+    private double _price;
 
     public Ticket(string movieName, TicketType type, Seat seat, double price)
     {
@@ -35,6 +35,7 @@ internal class Ticket
             _price -= discount;
             discount = 0;
         }
+        return _price;
     }
 
     public void PrintTicket(double taxPercent)
@@ -46,11 +47,11 @@ internal class Ticket
         Console.WriteLine($"Total ({taxPercent}% tax   : {CalcTotal(taxPercent)}");
     }
 
-    public void PrintTicket()
+    public void PrintTicketBasic()
     {
-        Console.WriteLine($"Discount Before     : {MovieName}");
-        Console.WriteLine($"Discount After      : {MovieName}");
-        Console.WriteLine($"Movie Name          : {MovieName}");
-        Console.WriteLine($"TicketType          : {TicketType}");
+        Console.WriteLine($"Movie : {MovieName}");
+        Console.WriteLine($"Type  : {TicketType}");
+        Console.WriteLine($"Seat  : {Seat}");
+        Console.WriteLine($"Price : {_price:F2}");
     }
 }
