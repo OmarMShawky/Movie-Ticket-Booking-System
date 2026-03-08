@@ -6,13 +6,50 @@ namespace AssignmentOneOOP;
 
 internal class Ticket
 {
-    public string MovieName;
-    public TicketType TicketType;
-    public Seat Seat;
+    private string _movieName;
     private double _price;
+    public string MovieName
+    {
+        get
+        {
+           return _movieName;
+        }
+        set
+        {
+            if(!String.IsNullOrEmpty(value))
+                _movieName = value;
+        }
+    }
+    public TicketType TicketType { get; set; }
+    public Seat Seat { get; set; }
+    //Price : must be greater than 0. If an invalid value is set, keep the previous value
+    public double Price
+    {
+        get
+        {
+            return _price;
+        }
+        set
+        {
+            if (value > 0)
+                _price = value;
+       
+            Price = _price;
+        }
+    }
 
+    public double PriceAfterTax => _price * 1.14;
+
+    private static int _ticketCounter = 0;
+    public static int TicketCounter => _ticketCounter;
+
+    //Add a ‘TicketId’ property. Each ticket gets a unique ID automatically when created
+    //(increment `ticketCounter` in the constructor and assign it to the ID).
+    public int TicketId {  get; private set; }
     public Ticket(string movieName, TicketType type, Seat seat, double price)
     {
+        _ticketCounter++;
+        TicketId = _ticketCounter;
         MovieName = movieName;
         TicketType = type;
         Seat = seat;
@@ -54,4 +91,6 @@ internal class Ticket
         Console.WriteLine($"Seat  : {Seat}");
         Console.WriteLine($"Price : {_price:F2}");
     }
+
+    public int GetTotalTicketsSold() => TicketCounter;
 }

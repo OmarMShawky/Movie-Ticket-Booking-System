@@ -1,85 +1,67 @@
-﻿namespace AssignmentOneOOP
-{
-    internal class Program
-    {
-        static void Main()
-        {
-            const double TAX_PERCENT = 14;
+﻿namespace AssignmentOneOOP;
 
-            // --- Read input ---
-            Console.Write("Enter Movie Name: ");
+internal class Program
+{
+    static void Main()
+    {
+        Cinema cinema = new Cinema();
+
+        Console.WriteLine("========== Ticket Booking ==========");
+        for (int i = 0; i < 3; i++)
+        {
+            Console.WriteLine($"Enter data for Ticket {i + 1}:");
+
+            Console.Write("Movie Name: ");
             string movieName = Console.ReadLine();
 
-            Console.Write("Enter Ticket Type (0 = Standard , 1 = VIP , 2 = IMAX ): ");
+            Console.Write("Ticket Type (0=Standard, 1=VIP, 2=IMAX): ");
             TicketType type = (TicketType)int.Parse(Console.ReadLine());
 
-            Console.Write("Enter Seat Row (A, B, C...): ");
+            Console.Write("Seat Row (A-Z): ");
             char row = char.ToUpper(Console.ReadLine().Trim()[0]);
 
-            Console.Write("Enter Seat Number: ");
+            Console.Write("Seat Number: ");
             int seatNumber = int.Parse(Console.ReadLine());
 
-            Console.Write("Enter Price: ");
+            Console.Write("Price: ");
             double price = double.Parse(Console.ReadLine());
 
-            Console.Write("Enter Discount Amount: ");
-            double discount = double.Parse(Console.ReadLine());
-
-            // --- Build ticket ---
-            Seat seat = new Seat(row, seatNumber);
-            Ticket ticket = new Ticket(movieName, type, seat, price);
-
-            // --- Print ticket info ---
-            Console.WriteLine();
-            Console.WriteLine("===== Ticket Info =====");
-            ticket.PrintTicket(TAX_PERCENT);
-
-            // --- Apply discount and print result ---
-            double discountBefore = discount;
-            ticket.ApplyDiscount(ref discount);
-
-            Console.WriteLine();
-            Console.WriteLine("===== After Discount =====");
-            Console.WriteLine($"Discount Before : {discountBefore:F2}");
-            Console.WriteLine($"Discount After  : {discount:F2}");
-            ticket.PrintTicketBasic();
+            Ticket ticket = new Ticket(movieName, type, new Seat(row, seatNumber), price);
+            cinema.AddTicket(ticket);
         }
+
+        
+        Console.WriteLine("\n========== All Tickets ==========");
+        for (int i = 0; i < 3; i++)
+        {
+            Ticket t = cinema[i];
+            Console.WriteLine($"Ticket #{t.TicketId} | {t.MovieName} | {t.TicketType} | Seat: {t.Seat.Row}-{t.Seat.Number} | Price: {t.Price} EGP | After Tax: {t.PriceAfterTax} EGP");
+        }
+
+        
+        Console.WriteLine("\n========== Search by Movie ==========");
+        Console.Write("Enter movie name to search: ");
+        string searchName = Console.ReadLine();
+
+        Ticket found = cinema.GetMovieByName(searchName);
+        if (found != null)
+            Console.WriteLine($"Found: Ticket #{found.TicketId} | {found.MovieName} | {found.TicketType} | Seat: {found.Seat.Row}-{found.Seat.Number} | Price: {found.Price} EGP");
+        else
+            Console.WriteLine("Ticket not found.");
+
+        
+        Console.WriteLine("\n========== Tickets Sold ==========");
+        Console.WriteLine($"Total Tickets Sold: {Cinema.TotalTicketsSold()}");
+
+        
+        Console.WriteLine("\n========== Booking References ==========");
+        Console.WriteLine(BookingHelper.GenerateBookingReference());
+        Console.WriteLine(BookingHelper.GenerateBookingReference());
+
+        
+        Console.WriteLine("\n========== Group Discount ==========");
+        double groupTotal = BookingHelper.CalcGroupDiscount(5, 80);
+        Console.WriteLine($"Group of 5 tickets at 80 EGP each:");
+        Console.WriteLine($"Total after 10% discount: {groupTotal} EGP");
     }
 }
-            //const double taxPercent = 14;
-
-            //Console.WriteLine("Enter Movie Name");
-            //var movieName = Console.ReadLine();
-
-            //Console.WriteLine("Enter Ticket Type (0 = Standard , 1 = VIP , 2 = IMAX )");
-            //TicketType type = (TicketType)int.Parse(Console.ReadLine());
-            
-
-            //Console.WriteLine("Enter Seat Row (A, B, C...):");
-            //var row = Char.Parse(Console.ReadLine());
-
-            //Console.WriteLine("Enter Seat Number");
-            //var number = int.Parse(Console.ReadLine());
-
-            //Console.WriteLine("Enter Price: ");
-            //double price = double.Parse(Console.ReadLine());
-
-            //Console.Write("Enter Discount Amount: ");
-            //double discount = double.Parse(Console.ReadLine());
-
-            //Seat seatLocation = new Seat(row, number);
-
-            //Ticket ticket = new Ticket(movieName, type, seatLocation, price);
-
-            //Console.WriteLine();
-            //Console.WriteLine("============ Ticket Info ============");
-            //ticket.PrintTicket(taxPercent);
-
-            //double discountBefore = discount;
-            //ticket.ApplyDiscount(ref discount);
-
-            //Console.WriteLine();
-            //Console.WriteLine("//============ After Discount ============");
-            //Console.WriteLine($"Discount Before : {discountBefore:F2}");
-            //Console.WriteLine($"Discount After  : {discount:F2}");
-            //ticket.PrintTicketBasic();
