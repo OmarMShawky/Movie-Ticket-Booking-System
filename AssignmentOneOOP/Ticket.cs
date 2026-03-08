@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AssignmentOneOOP;
+namespace MovieTicketBooking;
+
+internal class Projector
+{
+    public void Start() => Console.WriteLine("Projector started.");
+    public void Stop() => Console.WriteLine("Projector stopped.");
+}
 
 internal class Ticket
 {
     private string _movieName;
-    private double _price;
     public string MovieName
     {
         get
@@ -20,9 +25,7 @@ internal class Ticket
                 _movieName = value;
         }
     }
-    public TicketType TicketType { get; set; }
-    public Seat Seat { get; set; }
-    //Price : must be greater than 0. If an invalid value is set, keep the previous value
+    private double _price;
     public double Price
     {
         get
@@ -33,18 +36,18 @@ internal class Ticket
         {
             if (value > 0)
                 _price = value;
-       
+
             Price = _price;
         }
     }
+    public TicketType TicketType { get; set; }
+    public Seat Seat { get; set; }
 
     public double PriceAfterTax => _price * 1.14;
 
     private static int _ticketCounter = 0;
     public static int TicketCounter => _ticketCounter;
 
-    //Add a ‘TicketId’ property. Each ticket gets a unique ID automatically when created
-    //(increment `ticketCounter` in the constructor and assign it to the ID).
     public int TicketId {  get; private set; }
     public Ticket(string movieName, TicketType type, Seat seat, double price)
     {
@@ -60,6 +63,13 @@ internal class Ticket
     {
 
     }
+
+    public override string ToString()
+    {
+        return $"Ticket #{TicketId} | {MovieName} | Price: {Price} EGP | After Tax: {PriceAfterTax:F2} EGP";
+    }
+
+    public static int GetTotalTickets() => _ticketCounter;
 
     public double CalcTotal(double taxPercent)
     {
