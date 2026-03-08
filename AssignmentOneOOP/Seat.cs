@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AssignmentOneOOP;
+namespace MovieTicketBooking;
 
 internal struct Seat
 {

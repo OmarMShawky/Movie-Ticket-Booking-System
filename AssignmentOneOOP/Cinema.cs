@@ -1,14 +1,22 @@
-﻿using System;
+﻿using MovieTicketBooking;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AssignmentOneOOP;
+namespace MovieTicketBooking;
 
 class Cinema
 {
+    public string CinemaName { get; set; }
+    private Projector _projector;
     private Ticket[] _tickets = new Ticket[20];
 
-    // a. Index-based get/set
+    public Cinema(string cinemaName)
+    {
+        CinemaName = cinemaName;
+        _projector = new Projector();
+    }
+
     public Ticket this[int index]
     {
         get
@@ -52,5 +60,26 @@ class Cinema
     public static int TotalTicketsSold()
     {
         return Ticket.TicketCounter; // reads the static counter from Ticket class
+    }
+    public void PrintAllTickets()
+    {
+        Console.WriteLine("========== All Tickets ==========");
+        foreach (Ticket t in _tickets)
+        {
+            if (t != null)
+                Console.WriteLine(t); // calls each ticket's overridden ToString()
+        }
+    }
+
+    public void OpenCinema()
+    {
+        Console.WriteLine("========== Cinema Opened ==========");
+        _projector.Start();
+    }
+
+    public void CloseCinema()
+    {
+        Console.WriteLine("========== Cinema Closed ==========");
+        _projector.Stop();
     }
 }
